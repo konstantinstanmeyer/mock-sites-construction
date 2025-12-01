@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HardHat, Menu, X, Phone, Mail, MapPin, ChevronRight, Award, Users, Building2, Calendar, CheckCircle2, ArrowRight } from 'lucide-react';
 
 const projects = [
@@ -7,36 +7,72 @@ const projects = [
     title: 'Metro Tower Complex',
     category: 'Commercial',
     year: '2024',
+    description: 'A 40-story mixed-use development featuring premium office spaces and retail outlets in the heart of downtown.',
+    images: [
+      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80',
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
+    ]
   },
   {
     url: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80',
     title: 'Riverside Residences',
     category: 'Residential',
     year: '2023',
+    description: 'Luxury waterfront condominiums with panoramic river views and modern amenities.',
+    images: [
+      'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80',
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
+    ]
   },
   {
     url: 'https://images.unsplash.com/photo-1590496793907-3802b8fa2562?w=800&q=80',
     title: 'Industrial Park Phase 2',
     category: 'Industrial',
     year: '2024',
+    description: 'State-of-the-art logistics and distribution center with advanced automation systems.',
+    images: [
+      'https://images.unsplash.com/photo-1590496793907-3802b8fa2562?w=800&q=80',
+      'https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&q=80',
+      'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=800&q=80',
+    ]
   },
   {
     url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
     title: 'Gateway Office Campus',
     category: 'Commercial',
     year: '2023',
+    description: 'Modern corporate campus with sustainable design and collaborative workspaces.',
+    images: [
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
+      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80',
+    ]
   },
   {
     url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
     title: 'Urban Heights',
     category: 'Residential',
     year: '2024',
+    description: 'High-rise residential tower offering stunning city views and premium finishes.',
+    images: [
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80',
+    ]
   },
   {
     url: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&q=80',
     title: 'Harbor Logistics Center',
     category: 'Industrial',
     year: '2023',
+    description: 'Multi-level warehouse facility with direct port access and rail connectivity.',
+    images: [
+      'https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&q=80',
+      'https://images.unsplash.com/photo-1590496793907-3802b8fa2562?w=800&q=80',
+      'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=800&q=80',
+    ]
   },
 ];
 
@@ -75,6 +111,8 @@ export default function ConstructionCompany() {
   const [scrolled, setScrolled] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
   const [visibleSections, setVisibleSections] = useState({});
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -130,6 +168,34 @@ export default function ConstructionCompany() {
   const handleSubmit = () => {
     alert('Quote request submitted! We will contact you soon.');
     setFormData({ name: '', email: '', phone: '', projectType: '', details: '' });
+  };
+
+  const openProjectModal = (project) => {
+    setSelectedProject(project);
+    setCurrentImageIndex(0);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeProjectModal = () => {
+    setSelectedProject(null);
+    setCurrentImageIndex(0);
+    document.body.style.overflow = 'unset';
+  };
+
+  const nextImage = () => {
+    if (selectedProject) {
+      setCurrentImageIndex((prev) => 
+        prev === selectedProject.images.length - 1 ? 0 : prev + 1
+      );
+    }
+  };
+
+  const prevImage = () => {
+    if (selectedProject) {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? selectedProject.images.length - 1 : prev - 1
+      );
+    }
   };
 
   return (
@@ -315,10 +381,11 @@ export default function ConstructionCompany() {
             {filteredProjects.map((project, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
+                className="group relative overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
                 style={{
                   animation: `fade-in-up 0.6s ease-out ${index * 0.1}s both`,
                 }}
+                onClick={() => openProjectModal(project)}
               >
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
@@ -395,61 +462,36 @@ export default function ConstructionCompany() {
         }`}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Building Excellence <span className="text-orange-400">Since 1999</span>
-              </h2>
-              <p className="text-slate-300 mb-6 leading-relaxed text-lg">
-                Apex Build Construction Group has been at the forefront of the construction 
-                industry for over two decades, delivering projects that stand the test of time.
-              </p>
-              <p className="text-slate-300 mb-8 leading-relaxed">
-                Our commitment to quality, safety, and innovation has made us the preferred 
-                partner for clients seeking reliable construction solutions.
-              </p>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Building Excellence <span className="text-orange-400">Since 1999</span>
+            </h2>
+            <p className="text-slate-300 mb-6 leading-relaxed text-lg">
+              Apex Build Construction Group has been at the forefront of the construction 
+              industry for over two decades, delivering projects that stand the test of time.
+            </p>
+            <p className="text-slate-300 mb-8 leading-relaxed">
+              Our commitment to quality, safety, and innovation has made us the preferred 
+              partner for clients seeking reliable construction solutions.
+            </p>
 
-              <div className="space-y-4 mb-8">
-                {[
-                  'Licensed and fully insured contractors',
-                  'OSHA-compliant safety standards',
-                  'On-time, on-budget delivery',
-                  'Sustainable building practices',
-                ].map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle2 className="text-orange-400 flex-shrink-0 mt-1" size={24} />
-                    <span className="text-slate-200">{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <button className="bg-orange-600 text-white px-8 py-4 hover:bg-orange-700 transition-colors font-bold tracking-wide">
-                LEARN MORE ABOUT US
-              </button>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+              {[
+                'Licensed & Insured',
+                'OSHA Compliant',
+                'On-Time Delivery',
+                'Sustainable Practices',
+              ].map((item, index) => (
+                <div key={index} className="text-center">
+                  <CheckCircle2 className="text-orange-400 mx-auto mb-2" size={32} />
+                  <span className="text-slate-200 text-sm font-medium">{item}</span>
+                </div>
+              ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&q=80"
-                alt="Construction site"
-                className="w-full h-64 object-cover"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&q=80"
-                alt="Team meeting"
-                className="w-full h-64 object-cover mt-8"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&q=80"
-                alt="Building exterior"
-                className="w-full h-64 object-cover -mt-8"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400&q=80"
-                alt="Modern architecture"
-                className="w-full h-64 object-cover"
-              />
-            </div>
+            <button className="bg-orange-600 text-white px-8 py-4 hover:bg-orange-700 transition-colors font-bold tracking-wide">
+              LEARN MORE ABOUT US
+            </button>
           </div>
         </div>
       </section>
@@ -626,6 +668,86 @@ export default function ConstructionCompany() {
           }
         }
       `}</style>
+
+      {/* Project Modal */}
+      {selectedProject && (
+        <div 
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 md:p-8"
+          onClick={closeProjectModal}
+        >
+          <button
+            className="absolute top-4 right-4 text-white hover:text-orange-400 transition-colors z-50"
+            onClick={closeProjectModal}
+          >
+            <X size={32} />
+          </button>
+
+          <div 
+            className="relative w-full max-w-5xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Image Gallery */}
+            <div className="relative aspect-[16/9] md:aspect-[21/9] bg-slate-900 mb-6">
+              <img
+                src={selectedProject.images[currentImageIndex]}
+                alt={selectedProject.title}
+                className="w-full h-full object-cover"
+              />
+              
+              {/* Navigation Arrows */}
+              {selectedProject.images.length > 1 && (
+                <>
+                  <button
+                    onClick={prevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 text-white transition-all"
+                  >
+                    <ChevronRight size={28} className="rotate-180" />
+                  </button>
+                  <button
+                    onClick={nextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 text-white transition-all"
+                  >
+                    <ChevronRight size={28} />
+                  </button>
+                </>
+              )}
+
+              {/* Image Indicators */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {selectedProject.images.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      idx === currentImageIndex 
+                        ? 'bg-orange-500 w-8' 
+                        : 'bg-white/50 hover:bg-white/75'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Project Details */}
+            <div className="bg-white p-6 md:p-8">
+              <div className="flex flex-wrap items-center gap-3 mb-4">
+                <span className="bg-orange-600 text-white px-3 py-1 text-sm font-bold">
+                  {selectedProject.category}
+                </span>
+                <span className="text-slate-500 text-sm">
+                  {selectedProject.year}
+                </span>
+              </div>
+              <h3 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900">
+                {selectedProject.title}
+              </h3>
+              <p className="text-slate-600 leading-relaxed text-lg">
+                {selectedProject.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
