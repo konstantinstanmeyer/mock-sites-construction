@@ -27,7 +27,7 @@ const projects = [
     ]
   },
   {
-    url: 'https://images.unsplash.com/photo-1590496793907-3802b8fa2562?w=800&q=80',
+    url: 'https://images.unsplash.com/photo-1482731215275-a1f151646268?q=80&w=1170',
     title: 'Industrial Park Phase 2',
     category: 'Industrial',
     year: '2024',
@@ -70,7 +70,7 @@ const projects = [
     description: 'Multi-level warehouse facility with direct port access and rail connectivity.',
     images: [
       'https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&q=80',
-      'https://images.unsplash.com/photo-1590496793907-3802b8fa2562?w=800&q=80',
+      'https://images.unsplash.com/photo-1567954970774-58d6aa6c50dc?q=80&w=1332',
       'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=800&q=80',
     ]
   },
@@ -604,7 +604,7 @@ export default function ConstructionCompany() {
                 <div className="bg-orange-600 p-2 rotate-45">
                   <HardHat className="text-white -rotate-45" size={24} />
                 </div>
-                <div>
+                <div className="ml-2">
                   <div className="text-lg font-bold">APEX BUILD</div>
                   <div className="text-xs text-orange-400 tracking-widest">CONSTRUCTION GROUP</div>
                 </div>
@@ -651,7 +651,7 @@ export default function ConstructionCompany() {
           </div>
 
           <div className="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm">
-            <p>© 2024 Apex Build Construction Group. All rights reserved. | Licensed & Insured</p>
+            <p>© Konstantin Stanmeyer</p>
           </div>
         </div>
       </footer>
