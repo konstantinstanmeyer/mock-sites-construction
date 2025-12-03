@@ -213,7 +213,7 @@ export default function ConstructionCompany() {
             <div className="bg-orange-600 p-2 rotate-45">
               <HardHat className={`${scrolled ? 'text-white' : 'text-white'} -rotate-45`} size={24} />
             </div>
-            <div>
+            <div className="ml-2">
               <span className={`text-xl font-bold tracking-tight ${scrolled ? 'text-slate-900' : 'text-white'}`}>
                 APEX BUILD
               </span>
@@ -278,7 +278,7 @@ export default function ConstructionCompany() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center overflow-hidden">
+      <section className="relative pb-40 pt-50 flex items-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -321,7 +321,7 @@ export default function ConstructionCompany() {
         </div>
 
         {/* Diagonal Accent */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-white transform -skew-y-2 origin-bottom-left" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-white transform -skew-y-2 origin-bottom-left" />
       </section>
 
       {/* Stats Section */}
@@ -669,7 +669,7 @@ export default function ConstructionCompany() {
         }
       `}</style>
 
-      {/* Project Modal */}
+      {/* Project Modals */}
       {selectedProject && (
         <div 
           className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 md:p-8"
@@ -714,12 +714,12 @@ export default function ConstructionCompany() {
 
               {/* Image Indicators */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                {selectedProject.images.map((_, idx) => (
+                {selectedProject.images.map((project, i) => (
                   <button
-                    key={idx}
-                    onClick={() => setCurrentImageIndex(idx)}
+                    key={i}
+                    onClick={() => setCurrentImageIndex(i)}
                     className={`w-2 h-2 rounded-full transition-all ${
-                      idx === currentImageIndex 
+                      i === currentImageIndex 
                         ? 'bg-orange-500 w-8' 
                         : 'bg-white/50 hover:bg-white/75'
                     }`}
